@@ -64,7 +64,7 @@ th {
     background-color: #eee;
 }
 
-/* Responsive styles */
+/* Mobile-friendly adjustments */
 @media (min-width: 600px) {
     .button-group {
         flex-direction: row;
