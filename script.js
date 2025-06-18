@@ -1,8 +1,6 @@
 let allowedStartTime, allowedEndTime;
 let events = [];
 
-const GAP_MINUTES = 5;
-
 document.getElementById("set-time-range").addEventListener("click", () => {
   allowedStartTime = document.getElementById("start-time").value;
   allowedEndTime = document.getElementById("end-time").value;
@@ -37,14 +35,14 @@ document.getElementById("add-event").addEventListener("click", () => {
   document.getElementById("event-end").value = "";
 });
 
-function toMinutes(time) {
-  const [h, m] = time.split(":").map(Number);
+function toMinutes(t) {
+  const [h, m] = t.split(":").map(Number);
   return h * 60 + m;
 }
 
-function toTimeStr(minutes) {
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
+function toTimeString(mins) {
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
@@ -54,7 +52,6 @@ document.getElementById("create-schedule").addEventListener("click", () => {
   const tbody = document.querySelector("#schedule-table tbody");
   tbody.innerHTML = "";
 
-  // Sort events by actual event date + start time
   events.sort((a, b) => {
     if (a.date - b.date !== 0) return a.date - b.date;
     return toMinutes(a.start) - toMinutes(b.start);
@@ -62,47 +59,34 @@ document.getElementById("create-schedule").addEventListener("click", () => {
 
   const scheduleStart = toMinutes(allowedStartTime);
   const scheduleEnd = toMinutes(allowedEndTime);
+  const scheduleDuration = scheduleEnd - scheduleStart;
+
   let currentDate = new Date(events[0].date);
-  let availableTime = toMinutes(events[0].start);
+  let currentDayOffset = 0;
+  let availableMin = scheduleStart;
 
   events.forEach(event => {
-    let eventStartMin = toMinutes(event.start);
-    let eventEndMin = toMinutes(event.end);
-    let duration = eventEndMin - eventStartMin;
+    const duration = toMinutes(event.end) - toMinutes(event.start);
 
-    let scheduledStart, scheduledEnd;
-
-    if (
-      event.date > currentDate ||
-      availableTime < scheduleStart ||
-      availableTime > scheduleEnd - duration
-    ) {
-      // Use original time if in range
-      scheduledStart = Math.max(scheduleStart, eventStartMin);
-      if (scheduledStart + duration > scheduleEnd) {
-        // Spill into next day
-        currentDate.setDate(currentDate.getDate() + 1);
-        scheduledStart = scheduleStart;
-      }
-    } else {
-      scheduledStart = availableTime + GAP_MINUTES;
-      if (scheduledStart + duration > scheduleEnd) {
-        currentDate.setDate(currentDate.getDate() + 1);
-        scheduledStart = scheduleStart;
-      }
+    if (availableMin + duration > scheduleEnd) {
+      // Not enough space in current day, spill to next day
+      currentDayOffset += 1;
+      availableMin = scheduleStart;
     }
 
-    scheduledEnd = scheduledStart + duration;
-    availableTime = scheduledEnd;
+    const scheduledDate = new Date(currentDate);
+    scheduledDate.setDate(scheduledDate.getDate() + currentDayOffset);
 
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${currentDate.toLocaleDateString("en-GB")}</td>
-      <td>${toTimeStr(scheduledStart)}</td>
-      <td>${toTimeStr(scheduledEnd)}</td>
+      <td>${scheduledDate.toLocaleDateString("en-GB")}</td>
+      <td>${toTimeString(availableMin)}</td>
+      <td>${toTimeString(availableMin + duration)}</td>
       <td contenteditable="true">${event.name}</td>
     `;
     tbody.appendChild(row);
+
+    availableMin += duration;
   });
 
   document.getElementById("schedule-section").style.display = "block";
@@ -117,44 +101,11 @@ document.getElementById("download-excel").addEventListener("click", () => {
   });
   const ws = XLSX.utils.aoa_to_sheet(rows);
   XLSX.utils.book_append_sheet(wb, ws, "Schedule");
-  XLSX.writeFile(wb, "schedule.xlsx");
-});
-
-document.getElementById("import-file").addEventListener("change", e => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const data = new Uint8Array(e.target.result);
-    const workbook = XLSX.read(data, { type: "array" });
-    const sheet = workbook.Sheets[workbook.SheetNames[0]];
-    const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
-    const tbody = document.querySelector("#schedule-table tbody");
-    tbody.innerHTML = "";
-
-    for (let i = 1; i < json.length; i++) {
-      const [date, start, end, name] = json[i];
-      if (!date || !start || !end || !name) continue;
-
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${date}</td>
-        <td>${start}</td>
-        <td>${end}</td>
-        <td contenteditable="true">${name}</td>
-      `;
-      tbody.appendChild(row);
-    }
-
-    document.getElementById("schedule-section").style.display = "block";
-  };
-  reader.readAsArrayBuffer(file);
+  XLSX.writeFile(wb, "olympic_schedule.xlsx");
 });
 
 document.getElementById("reset-schedule").addEventListener("click", () => {
-  if (confirm("Reset all data?")) {
+  if (confirm("Are you sure you want to reset the schedule?")) {
     location.reload();
   }
 });
