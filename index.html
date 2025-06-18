@@ -7,19 +7,49 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main>
-        <h1>Event Scheduler</h1>
+    <h1>Event Scheduler</h1>
 
-        <section id="time-limit-section">
-            <h2>Step 1: Set Daily Time Range</h2>
-            <label for="start-time">Start Time (HH:MM):</label>
-            <input type="time" id="start-time" max="23:59"><br>
-            <label for="end-time">End Time (HH:MM):</label>
-            <input type="time" id="end-time" max="23:59"><br>
-            <button id="set-time-range">Submit Time Range</button>
-        </section>
+    <section id="time-limit-section">
+        <h2>Step 1: Set Schedule Time Range</h2>
+        <label for="start-time">Start Time (HH:MM):</label>
+        <input type="time" id="start-time" max="23:59">
+        <label for="end-time">End Time (HH:MM):</label>
+        <input type="time" id="end-time" max="23:59">
+        <button id="set-time-range">Submit Time Range</button>
+    </section>
 
-        <section id="event-section" style="display:none;">
-            <h2>Step 2: Add Live Events</h2>
-            <label for="event-name">Event Name:</label>
-            <input type="text" id="event-name"><br>
+    <section id="event-section" style="display:none;">
+        <h2>Step 2: Add Events</h2>
+        <label for="event-name">Event Name:</label>
+        <input type="text" id="event-name">
+        <label for="event-date">Date (D:M:Y):</label>
+        <input type="text" id="event-date" placeholder="e.g., 18:06:2025">
+        <label for="event-start">Start Time (HH:MM):</label>
+        <input type="time" id="event-start">
+        <label for="event-end">End Time (HH:MM):</label>
+        <input type="time" id="event-end">
+        <div class="button-group">
+            <button id="add-event">Add Event</button>
+            <button id="create-schedule">Create Schedule</button>
+        </div>
+    </section>
+
+    <section id="schedule-section" style="display:none;">
+        <h2>Final Schedule</h2>
+        <div class="table-container">
+            <table id="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time (Fixed Range)</th>
+                        <th>Event Name</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
