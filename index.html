@@ -9,6 +9,12 @@
 <body>
     <h1>Event Scheduler</h1>
 
+    <!-- Spreadsheet Import -->
+    <section>
+        <input type="file" id="import-file" accept=".xlsx,.xls,.csv">
+    </section>
+
+    <!-- Step 1: Time Range -->
     <section id="time-limit-section">
         <h2>Step 1: Set Schedule Time Range</h2>
         <label for="start-time">Start Time (HH:MM):</label>
@@ -18,6 +24,7 @@
         <button id="set-time-range">Submit Time Range</button>
     </section>
 
+    <!-- Step 2: Add Events -->
     <section id="event-section" style="display:none;">
         <h2>Step 2: Add Events</h2>
         <label for="event-name">Event Name:</label>
@@ -34,6 +41,7 @@
         </div>
     </section>
 
+    <!-- Schedule Output -->
     <section id="schedule-section" style="display:none;">
         <h2>Final Schedule</h2>
         <div class="table-container">
@@ -48,8 +56,14 @@
                 <tbody></tbody>
             </table>
         </div>
+        <div class="button-group">
+            <button id="download-excel">Download as Spreadsheet</button>
+            <button id="reset-schedule" style="background-color:#dc3545;">Reset Schedule</button>
+        </div>
     </section>
 
+    <!-- Dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
