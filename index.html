@@ -1,69 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Schedule Builder</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Event Scheduler</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Event Scheduler</h1>
+  <h1>Smart Event Scheduler</h1>
 
-    <!-- Spreadsheet Import -->
-    <section>
-        <input type="file" id="import-file" accept=".xlsx,.xls,.csv">
-    </section>
+  <section id="import-section">
+    <input type="file" id="import-file" accept=".xlsx,.xls,.csv" />
+  </section>
 
-    <!-- Step 1: Time Range -->
-    <section id="time-limit-section">
-        <h2>Step 1: Set Schedule Time Range</h2>
-        <label for="start-time">Start Time (HH:MM):</label>
-        <input type="time" id="start-time" max="23:59">
-        <label for="end-time">End Time (HH:MM):</label>
-        <input type="time" id="end-time" max="23:59">
-        <button id="set-time-range">Submit Time Range</button>
-    </section>
+  <section id="time-limit-section">
+    <h2>Step 1: Set Time Range</h2>
+    <label>Start Time: <input type="time" id="start-time" /></label>
+    <label>End Time: <input type="time" id="end-time" /></label>
+    <button id="set-time-range">Submit Time Range</button>
+  </section>
 
-    <!-- Step 2: Add Events -->
-    <section id="event-section" style="display:none;">
-        <h2>Step 2: Add Events</h2>
-        <label for="event-name">Event Name:</label>
-        <input type="text" id="event-name">
-        <label for="event-date">Date (D:M:Y):</label>
-        <input type="text" id="event-date" placeholder="e.g., 18:06:2025">
-        <label for="event-start">Start Time (HH:MM):</label>
-        <input type="time" id="event-start">
-        <label for="event-end">End Time (HH:MM):</label>
-        <input type="time" id="event-end">
-        <div class="button-group">
-            <button id="add-event">Add Event</button>
-            <button id="create-schedule">Create Schedule</button>
-        </div>
-    </section>
+  <section id="event-section" style="display: none;">
+    <h2>Step 2: Add Live Events</h2>
+    <label>Name: <input type="text" id="event-name" /></label>
+    <label>Date (D:M:Y): <input type="text" id="event-date" placeholder="e.g. 18:06:2025" /></label>
+    <label>Start Time: <input type="time" id="event-start" /></label>
+    <label>End Time: <input type="time" id="event-end" /></label>
+    <div class="button-group">
+      <button id="add-event">Add Event</button>
+      <button id="create-schedule">Create Schedule</button>
+    </div>
+  </section>
 
-    <!-- Schedule Output -->
-    <section id="schedule-section" style="display:none;">
-        <h2>Final Schedule</h2>
-        <div class="table-container">
-            <table id="schedule-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Time (Fixed Range)</th>
-                        <th>Event Name</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-        <div class="button-group">
-            <button id="download-excel">Download as Spreadsheet</button>
-            <button id="reset-schedule" style="background-color:#dc3545;">Reset Schedule</button>
-        </div>
-    </section>
+  <section id="schedule-section" style="display: none;">
+    <h2>Final Schedule</h2>
+    <div class="table-container">
+      <table id="schedule-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Event Name</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="button-group">
+      <button id="download-excel">Download Spreadsheet</button>
+      <button id="reset-schedule" style="background-color: #dc3545;">Reset</button>
+    </div>
+  </section>
 
-    <!-- Dependencies -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
