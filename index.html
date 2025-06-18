@@ -3,27 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Event Scheduler</title>
+  <title>Olympic Event Scheduler</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Smart Event Scheduler</h1>
-
-  <section id="import-section">
-    <input type="file" id="import-file" accept=".xlsx,.xls,.csv" />
-  </section>
+  <h1>Olympic Event Scheduler</h1>
 
   <section id="time-limit-section">
-    <h2>Step 1: Set Time Range</h2>
+    <h2>Step 1: Your Available Watching Time</h2>
     <label>Start Time: <input type="time" id="start-time" /></label>
     <label>End Time: <input type="time" id="end-time" /></label>
-    <button id="set-time-range">Submit Time Range</button>
+    <button id="set-time-range">Set Time</button>
   </section>
 
   <section id="event-section" style="display: none;">
-    <h2>Step 2: Add Live Events</h2>
+    <h2>Step 2: Add Olympic Events</h2>
     <label>Name: <input type="text" id="event-name" /></label>
-    <label>Date (D:M:Y): <input type="text" id="event-date" placeholder="e.g. 18:06:2025" /></label>
+    <label>Date (D:M:Y): <input type="text" id="event-date" placeholder="e.g. 25:07:2024" /></label>
     <label>Start Time: <input type="time" id="event-start" /></label>
     <label>End Time: <input type="time" id="event-end" /></label>
     <div class="button-group">
@@ -33,7 +29,7 @@
   </section>
 
   <section id="schedule-section" style="display: none;">
-    <h2>Final Schedule</h2>
+    <h2>Watching Schedule</h2>
     <div class="table-container">
       <table id="schedule-table">
         <thead>
@@ -48,7 +44,7 @@
       </table>
     </div>
     <div class="button-group">
-      <button id="download-excel">Download Spreadsheet</button>
+      <button id="download-excel">Download Schedule</button>
       <button id="reset-schedule" style="background-color: #dc3545;">Reset</button>
     </div>
   </section>
