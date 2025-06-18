@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule Builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <h1>Event Scheduler</h1>
+
+        <section id="time-limit-section">
+            <h2>Step 1: Set Daily Time Range</h2>
+            <label for="start-time">Start Time (HH:MM):</label>
+            <input type="time" id="start-time" max="23:59"><br>
+            <label for="end-time">End Time (HH:MM):</label>
+            <input type="time" id="end-time" max="23:59"><br>
+            <button id="set-time-range">Submit Time Range</button>
+        </section>
+
+        <section id="event-section" style="display:none;">
+            <h2>Step 2: Add Live Events</h2>
+            <label for="event-name">Event Name:</label>
+            <input type="text" id="event-name"><br>
